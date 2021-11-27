@@ -4,7 +4,7 @@
 char tem[30];
 int temp[30];
 int op=0;
-flag=0;
+int flag=0;
 
 
 int x =0;
@@ -32,70 +32,66 @@ struct Alumno {
     struct subject asubject[3];
 }
 // arreglo de structs
-grupo[10],*ptrgroup;
+grupo[10];
 
-struct Alumno *buscar(struct Alumno *ap);
+void alta();
+
 int main (){
 
     int option = 0;
-    printf("Fundamentos de Programacion\n");
-    printf("Bienvenida a la Practica 5\n");
-    printf("Este es el menu del programa elija la opcion que desee utilizar\n");
-    printf("1\t- Dar de alta a un Alumno\n");
-    printf("2\t- Consultar alumnos \n");
-    printf("3\t- Modificar algun Alumno \n");
-    printf("4\t- Dar de baja a un Alumno \n");
-    scanf("%d", &option);
-    switch (option)
-    {
-    case 1:
-        alta();
-        break;
-    case 2:
-        baja();
-        break;
-    case 3:
-        //consulta();
-        break;
-    case 4:
-        //edit();
-        break;
-    
-    default:
-        break;
-    }
-
+    do{
+	    printf("Fundamentos de Programacion\n");
+	    printf("Bienvenida a la Practica 5\n");
+	    printf("Este es el menu del programa elija la opcion que desee utilizar\n");
+	    printf("1\t- Dar de alta a un Alumno\n");
+	    printf("2\t- Mostrar Alumnos \n");
+	    printf("3\t- Salir \n");
+	    scanf("%d", &option);
+	    switch (option)
+	    {
+	    case 1:
+	        alta();
+	        break;
+	    case 2:
+	        mostrar();
+	        break;
+	    
+	    default:
+	        break;
+	    }
+	}while(option != 3);
     return 0;
-};
+}
 
 void alta(){
-
+	int i, j;
     do{
         int count=0;
         printf("Para dar de alta a un alumno ingrese sus datos\n");
         printf("Nombre:");
-        scanf("%s",grupo[(0+count)].name);
+        scanf("%s",grupo[count].name);
         printf("boleta:");
-        scanf("%i",&grupo[(0+count)].id);
+        scanf("%i",&grupo[count].id);
         printf("grupo:");
-        scanf("%s",grupo[(0+count)].group);
+        scanf("%s",grupo[count].group);
         printf("Cuantas materias deesea agregar a este alumno\n");        
         scanf("%d",&x);
-        for (int i = 0; i < x; i++){
+        for (i = 0; i < x; i++){
             printf("Ingrerse los datos de la materia\n");
             printf("Nombre de la materia:\n");
-            scanf("%s",grupo[(0+count)].asubject[i].materia);
+            scanf("%s",grupo[(count)].asubject[i].materia);
             printf("Nombre del profesor/a:\n");
-            scanf("%s",grupo[(0+count)].asubject[i].profesor);
+            scanf("%s",grupo[(count)].asubject[i].profesor);
             printf("Ingrerse el horario:\n");
-            scanf("%s",grupo[(0+count)].asubject[i].horario);
+            scanf("%s",grupo[(count)].asubject[i].horario);
             printf("Ingrese las calificaicones del parcial:\n");
-            for (int i = 0; i < 3; i++)
+            grupo[count].asubject[i].final = 0;
+            for (j = 0; j < 3; j++)  //***Debes de recorrer las calificaciones con otro indice diferente de i. Puse a j como indice
             {
-                scanf("%d",&grupo[(0+count)].asubject[i].calificacion[i]);
-                grupo[(0+count)].asubject[i].final= grupo[(0+count)].asubject[i].calificacion[i]+grupo[(0+count)].asubject[i].final;
+                scanf("%d",&grupo[(count)].asubject[i].calificacion[j]);
+                grupo[count].asubject[i].final += grupo[count].asubject[i].calificacion[j];
             }
-            printf("promedio final = %d \n",(grupo[0].asubject[i].final)/3);
+            printf("promedio final = %d \n",(grupo[count].asubject[i].final)/3);
         }
         int con =0;
         printf("Deseas agregar otro alumno\n");
@@ -107,65 +103,34 @@ void alta(){
             flag=0;
         }else{
             flag=1;
+            
         }
         count++;
         
     } while (flag);
     //Para aceder a los campos se utiliza el selector ->
-    main();
+    //main();
 }
 
-void consulta(){
-
-    /*printf("Elija una opcion para buscar al alumno\n1)Nombre\n2)Numero de Boleta\n");
-    scanf("d",&op);
-    switch (op)
-    {
-    case 1:*/
-        printf("Ingrese Nombre Completo (en mayusculas)\n");
-		getchar();
-		gets(tem);
-		ptrgroup=buscar(ptrgroup);
-		flag=0;
-        //break;
-    /*case 2:
-        printf("Ingrese Numero de Boleta\n");
-        getint();
-		gets(temp);
-		ptrgroup=buscar(ptrgroup);
-		flag=0;
-        break;*/
+void mostrar(){
     
-    /*default:
-        break;
-    }*/
-    printf("Estos son los datos del alumno %s \n", ptrgroup->name);
-    printf("Boleta: %d\n", ptrgroup->id);
-    printf("Grupo: %s\n", ptrgroup->group);
+    int count = 0;
+    printf("Nombre: %s\n", grupo[count].name);
+    printf("boleta: %d\n", grupo[count].id);
+    printf("grupo: %s\n", grupo[count].group);
     for (int i = 0; i < 3; i++)
     {
-        printf("Materia: %s\n", ptrgroup->asubject[i].materia);
-        printf("profesor: %s\n", ptrgroup->asubject[i].profesor);
-        printf(": %s\n", ptrgroup->asubject[i].horario);
-        printf("Materia: %n \n", &ptrgroup->asubject[i].final);
-        
-    }
-    
-
-};
-
-struct Alumno *buscar(struct Alumno *ap){
-
-    //if (op==1){
-        while (strcmp(tem,(*ap).name)!=0){
-            ap++;
+        printf("Materia: %s\n",grupo[count].asubject[i].materia);
+        printf("Profesor: %s\n",grupo[count].asubject[i].profesor);
+        printf("Horario: %s\n",grupo[count].asubject[i].horario);
+        for (int j = 0; j < 3; j++)
+        {
+            printf("Calificacion del %d parcial: %d\n",j++,grupo[count].asubject[i].calificacion[j]);
+            printf("Promedio final: %d\n",(grupo[count].asubject[i].final)/3);
         }
-        
-    /*}else
-        while (strcmp(temp,(*ap).id)!=0){
-            ap++;
-        }*/
-
-    return(ap);
+    }
+    count++;
+    return 0 ;
+    
 
 }
